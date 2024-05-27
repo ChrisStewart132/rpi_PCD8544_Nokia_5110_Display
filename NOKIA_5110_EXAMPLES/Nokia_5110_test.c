@@ -1,6 +1,4 @@
 /**
- * 
- * 
  * gcc -o Nokia_5110_test Nokia_5110_test.c -lgpiod
  * ./Nokia_5110_test
  */

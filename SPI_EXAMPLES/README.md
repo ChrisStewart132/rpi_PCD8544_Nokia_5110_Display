@@ -1,4 +1,6 @@
-# https://www.kernel.org/doc/Documentation/spi/spidev
+# SPIDEV
+
+https://www.kernel.org/doc/Documentation/spi/spidev
 
 SPI devices have a limited userspace API, supporting basic half-duplex
 read() and write() access to SPI slave devices.  Using ioctl() requests,

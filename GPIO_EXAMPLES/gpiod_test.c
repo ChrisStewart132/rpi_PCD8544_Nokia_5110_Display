@@ -6,6 +6,11 @@
 #define GPIO_CHIP_NAME "gpiochip0"
 #define GPIO_LINE_OFFSET 17 // Example GPIO pin number
 
+/**
+	gcc -o gpiod_test gpiod_test.c -lgpiod
+	./gpiod_test
+*/
+
 int main() {
     struct gpiod_chip *chip;
     struct gpiod_line *line;

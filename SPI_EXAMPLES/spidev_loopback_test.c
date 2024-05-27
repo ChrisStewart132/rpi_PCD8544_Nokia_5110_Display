@@ -12,6 +12,7 @@
 
 /*
 	gcc -o spidev_loopback_test spidev_loopback_test.c
+	./spidev_loopback_test
 */
 int main() {
     int fd;
