@@ -1,5 +1,5 @@
 # RASPBERRY PI 3B+ PROGRAM TO INTERFACE AND CONTROL A NOKIA 5110 LCD
-Program Using the Linux SPIDEV character driver and the libgpiod (successor to the Linux sysfs?) GPIO library to control a NOKIA 5110 LCD screen
+Program Using the Linux SPIDEV character driver and the libgpiod GPIO library to control a NOKIA 5110 LCD screen
 
 # DEMO
 https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display/assets/30304173/fb5c2923-b809-49ff-a8f8-25c49b45d450
