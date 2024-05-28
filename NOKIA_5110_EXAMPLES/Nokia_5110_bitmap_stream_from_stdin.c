@@ -20,6 +20,7 @@
 #define GPIO_OFFSET_RST 27 	// RESET active low
 
 #define SPI_DEVICE "/dev/spidev0.0"
+#define SPI_HZ 4000000
 /**
  * SCE
  * MOSI
@@ -33,7 +34,7 @@ void _spi_write(int fd, uint8_t* tx_buffer, int size){
 		.tx_buf = (unsigned long)tx_buffer,
 		.rx_buf = (unsigned long)NULL,
 		.len = size,
-		.speed_hz = 500000,
+		.speed_hz = SPI_HZ,
 		.delay_usecs = 0,
 		.bits_per_word = 8,
 		.cs_change = 0,
@@ -122,8 +123,8 @@ void init(int fd, struct gpiod_line** dc, struct gpiod_line** rst){
 	cmd = (1<<5) + (1<<1);
 	_spi_write(fd, &cmd, 1);// H=0 V=1
 
-	cmd = (1<<3) + (1<<2);
-	_spi_write(fd, &cmd, 1);// D=1,E=0 (display mode set normal mode)
+	cmd = (1<<3) + (1<<2) + (1<<0);
+	_spi_write(fd, &cmd, 1);// D=1,E=1 (display mode set inverse mode)
 }
 
 void reset_cursor(int fd, struct gpiod_line** dc){
@@ -136,24 +137,30 @@ void reset_cursor(int fd, struct gpiod_line** dc){
 	_spi_write(fd, &cmd, 1);// set x=0 (0-83)
 }
 
-void display_buffer(int fd, struct gpiod_line** dc, int bitmap[48][84]){
+void display_buffer(int fd, struct gpiod_line** dc, char bitmap[48][84]){
 	// assuming vertical addressing
 	//printf("displaying bitmap\n");
 	//reset_cursor(fd, dc);
-	
+
+	// Buffer to hold the entire command set to be transferred
+    uint8_t transfer_buffer[504]; // 84 columns * 6 rows = 504 bytes
+    int buffer_index = 0;
+
 	_gpio_high(dc);// data mode
 	for(int x = 0; x < 84; x++){
 		for(int y = 0; y < 6; y++){
-			// read in bits 
+			// read in bits
 			uint8_t cmd = 0;
 			for(int i = y*8+7; i >= y*8; i--){
 				int bit = bitmap[i][x];
 				cmd <<= 1;
 				cmd += bit;
 			}
-			_spi_write(fd, &cmd, 1);
+			transfer_buffer[buffer_index++] = cmd;
+			//_spi_write(fd, &cmd, 1);
 		}
 	}
+	_spi_write(fd, transfer_buffer, 504);
 }
 
 void display_clear(int fd, struct gpiod_line** dc){
@@ -166,12 +173,13 @@ void display_clear(int fd, struct gpiod_line** dc){
 	}
 }
 
-load_buffer_from_stream_stdin(int bitmap[48][84]){
-	//printf("attempting to read in 84x48 bitmap buffer\n");
+void load_buffer_from_stream_stdin(char bitmap[48][84]){
 	for(int i = 0; i < 48; i++){
+		/*
 		for(int j = 0; j < 84; j++){
 			read(0, &(bitmap[i][j]), 1);
-		}
+		}*/
+		read(0, &(bitmap[i][0]), 84);// image skewed?
 	}
 }
 
@@ -187,7 +195,7 @@ int main() {
 
 	init(fd, &dc, &rst);
 	display_clear(fd, &dc);
-	int bitmap[48][84] = {{0}};
+	char bitmap[48][84] = {{0}};
 	while(1){
 		load_buffer_from_stream_stdin(bitmap);
 		display_buffer(fd, &dc, bitmap);
