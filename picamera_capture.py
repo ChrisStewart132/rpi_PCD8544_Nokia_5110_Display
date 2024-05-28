@@ -26,16 +26,20 @@ with picamera.PiCamera() as camera:
     
     
     
-    # todo convert from 96x48 to 84x48
+    
     rgb_stream.seek(0,0)
     threshold = 127
     bitmap_arr = []
     alpha_arr = []
+    x = 0
     while rgb_stream.tell() != buffer_size:
         rgb = rgb_stream.read(3)
-        alpha = sum(rgb)//3
-        alpha_arr.append(alpha)
-        bitmap_arr.append(alpha > threshold)
+	# only save 0->83 pixels in each row
+        if x % camera.resolution[0] < 84:
+            alpha = sum(rgb)//3
+            alpha_arr.append(alpha)
+            bitmap_arr.append(alpha > threshold)
+        x += 1
         
     alpha_stream = BytesIO()
     alpha_stream.write(bytes(alpha_arr))
@@ -55,9 +59,10 @@ with picamera.PiCamera() as camera:
     with open('bitmap.bin', 'wb') as file:
         bitmap_stream.seek(0,0)
         file.write(bitmap_stream.read())
-    
+        
+    print("Image captured",  bitmap_stream.tell()//camera.resolution[1],'x', camera.resolution[1])
     rgb_stream.close()
     alpha_stream.close()
     bitmap_stream.close()
-    print("Image captured", camera.resolution )
+    
 
