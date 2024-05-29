@@ -12,6 +12,10 @@ Requires a device (rpi 3b+) with an SPI interface and 2 spare GPIO pins, Nokia 5
 
 # HOW TO RUN
 Assuming you have wired your SPI interface to the Nokia 5110 with the 2 GPIO (d/c and rst) pins correctly connected.
+With a cmd line open in a directory:
+```
+git clone https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display.git
+```
 Compile Nokia_5110_bitmap_from_stdin_V2.c with gpiod installed on your linux device: 
 ```
 gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_from_stdin_V2.c -lgpiod
