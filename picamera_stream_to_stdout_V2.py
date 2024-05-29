@@ -16,7 +16,7 @@ THRESHOLD = 122
 with picamera.PiCamera() as camera:     # Set up the camera
     camera.resolution = (96, 48)        # Set to minimum resolution 96,48
     FRAME_SIZE = camera.resolution[0]* camera.resolution[1] * 3
-    camera.framerate = 24
+    camera.framerate = 16
     camera.rotation = 180               # flip camera view
     camera.color_effects = (128,128)    # grayscale
     time.sleep(2)                       # Allow the camera to warm up
@@ -29,6 +29,9 @@ with picamera.PiCamera() as camera:     # Set up the camera
     camera.wait_recording(1)
     frames_sent = 0
     while True:
+        length = rgb_stream.tell()
+        if length % FRAME_SIZE == 0:# skip to the last frame in the stream where possible
+            frames_sent = length // FRAME_SIZE - 1
         rgb_stream.seek(frames_sent*FRAME_SIZE, 0)
         rgb_frame = rgb_stream.read(FRAME_SIZE)
         rgb_stream.seek(0,io.SEEK_END)
@@ -38,8 +41,7 @@ with picamera.PiCamera() as camera:     # Set up the camera
         j = 0
         while x < FRAME_SIZE//3:#               convert from rgb to binary_byte
             if x % camera.resolution[0] < 84:   # only save 0->83 pixels in each row
-                rgb = rgb_frame[j:j+3]
-                alpha = 0.3*rgb[0] + 0.587*rgb[1] + 0.114*rgb[2]#sum(rgb)//3
+                alpha = 0.3*rgb_frame[j] + 0.587*rgb_frame[j+1] + 0.114*rgb_frame[j+2]#sum(rgb)//3
                 bitmap_bytes.append(alpha > THRESHOLD)
             x += 1
             j += 3
