@@ -16,7 +16,7 @@ With a cmd line open in a directory:
 ```
 git clone https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display.git
 ```
-Compile Nokia_5110_bitmap_from_stdin_V2.c with gpiod installed on your linux device: 
+Compile Nokia_5110_bitmap_stream_from_stdin_V2.c with gpiod installed on your linux device: 
 ```
 gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
 ```
