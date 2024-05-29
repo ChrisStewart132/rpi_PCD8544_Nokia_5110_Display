@@ -10,6 +10,18 @@ Nokia 5110 is a Nokia GSM mobile phone model. It was released in 1998. At one po
 # REQUIREMENTS TO RUN
 Requires a device (rpi 3b+) with an SPI interface and 2 spare GPIO pins, Nokia 5110 LCD, gpiod library, linux os (gpiod, spidev, C programs, gcc compiler), picameraV1 (rpi camera V1.3 hardware).
 
+# HOW TO RUN
+Assuming you have wired your SPI interface to the Nokia 5110 with the 2 GPIO (d/c and rst) pins correctly connected.
+Compile Nokia_5110_bitmap_from_stdin_V2.c with gpiod installed on your linux device: 
+```
+gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_from_stdin_V2.c -lgpiod
+```
+With python 3 installed:
+```
+python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
+```
+
+
 # Linux/Rpi commands
 ```
 ssh pi@192.168.1.65
