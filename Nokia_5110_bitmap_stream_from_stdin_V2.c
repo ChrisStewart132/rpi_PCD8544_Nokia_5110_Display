@@ -1,5 +1,5 @@
 /**
- * Program that reads from stdin a stream of bitmaps and presents it onto a Nokia 5110 LCD *  
+ * Program that reads from stdin a stream of (48h x 84w) bitmaps and presents it onto a Nokia 5110 LCD  
  * 
  * gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
  * python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
@@ -138,15 +138,13 @@ void reset_cursor(int fd, struct gpiod_line** dc){
 }
 
 void display_buffer(int fd, struct gpiod_line** dc, char bitmap[48][84]){
-	// assuming vertical addressing
-	//printf("displaying bitmap\n");
-	//reset_cursor(fd, dc);
-
 	// Buffer to hold the entire command set to be transferred
     uint8_t transfer_buffer[504]; // 84 columns * 6 rows = 504 bytes
     int buffer_index = 0;
 
 	_gpio_high(dc);// data mode
+
+	// assuming vertical addressing (V=1)
 	for(int x = 0; x < 84; x++){
 		for(int y = 0; y < 6; y++){
 			// read in bits
@@ -179,7 +177,7 @@ void load_buffer_from_stream_stdin(char bitmap[48][84]){
 		for(int j = 0; j < 84; j++){
 			read(0, &(bitmap[i][j]), 1);
 		}*/
-		read(0, &(bitmap[i][0]), 84);// image skewed?
+		read(0, &(bitmap[i][0]), 84);//
 	}
 }
 
@@ -199,8 +197,6 @@ int main() {
 	while(1){
 		load_buffer_from_stream_stdin(bitmap);
 		display_buffer(fd, &dc, bitmap);
-		//usleep(100);
-		//display_clear(fd, &dc);
 	}
 
 	if(dc)
