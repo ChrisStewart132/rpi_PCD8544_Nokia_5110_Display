@@ -7,6 +7,7 @@
 #define GPIO_LINE_OFFSET 17 // Example GPIO pin number
 
 /**
+ * program toggling GPIO pin 17 with a period of 1s
 	gcc -o gpiod_test gpiod_test.c -lgpiod
 	./gpiod_test
 */

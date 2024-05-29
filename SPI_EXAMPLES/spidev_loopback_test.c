@@ -11,6 +11,7 @@
 #define BUFFER_SIZE 32
 
 /*
+    program using the SPI0 pins, MOSI and MISO should be connected for a write and read loopback test
 	gcc -o spidev_loopback_test spidev_loopback_test.c
 	./spidev_loopback_test
 */

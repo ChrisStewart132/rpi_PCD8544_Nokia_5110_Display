@@ -1,8 +1,9 @@
 /**
- * Reads a an 84x48 byte buffer where each byte is 0/1 from STDIN
+ * Fourth prgoram, reads an 84x48 byte buffer stream (i.e. a continuous buffer with 1 or more bitmaps queued)
+ *  where each byte is 0/1 from STDIN
  * 
  * gcc -o Nokia_5110_bitmap_stream_from_stdin Nokia_5110_bitmap_from_stdin.c -lgpiod
- * cat bitmap.bin | ./Nokia_5110_bitmap_from_stdin
+ * python3 picamera_stream_to_stdout | ./Nokia_5110_bitmap_stream_from_stdin
  */
 
 #include <gpiod.h>

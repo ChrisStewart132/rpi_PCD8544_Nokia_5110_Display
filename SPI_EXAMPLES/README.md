@@ -1,3 +1,6 @@
+# SPI_EXAMPLES
+SPI (Serial Peripheral Interface) example(s), using the linux spidev driver
+
 # SPIDEV
 
 https://www.kernel.org/doc/Documentation/spi/spidev

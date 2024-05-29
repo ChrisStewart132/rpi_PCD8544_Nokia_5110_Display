@@ -1,3 +1,6 @@
+# GPIP_EXAMPLES
+GPIO (General Purpose Input Output) example(s), in this case libgpiod is used as uposed to the deprecated sysfs driver (or its new successor)
+
 # Install GPIOD
 sudo apt install libgpiod-dev
 

@@ -1,5 +1,5 @@
 /**
- * Reads a an 84x48 byte buffer where each byte is 0/1 from STDIN
+ * Third program, reads an 84x48 byte buffer where each byte is 0/1 from STDIN
  * 
  * gcc -o Nokia_5110_bitmap_from_stdin Nokia_5110_bitmap_from_stdin.c -lgpiod
  * cat bitmap.bin | ./Nokia_5110_bitmap_from_stdin

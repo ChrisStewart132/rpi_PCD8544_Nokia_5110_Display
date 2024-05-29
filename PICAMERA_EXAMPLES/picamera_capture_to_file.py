@@ -1,7 +1,14 @@
 import time
 import picamera
 from io import BytesIO
+'''
+    program using the rpi 3b+ and picamera v1.3
+    to capture a raw rgb image in grayscale, 
+    convert it to an 84x48 rgb, alpha, and bitmap via binary thresholding,
+    and write to file the rgb, alpha, and bitmap buffers (84x48) = 4032 bytes each with a value of 0 or 1
 
+    python3 picamera_capture_to_file.py
+'''
 # Set up the camera
 with picamera.PiCamera() as camera:
     # Set the resolution to 48x84

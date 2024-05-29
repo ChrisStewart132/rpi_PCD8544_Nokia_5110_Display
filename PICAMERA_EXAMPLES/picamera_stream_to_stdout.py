@@ -5,11 +5,11 @@ import io
 from sys import stdout
 '''
     program using the rpi 3b+ and picamera v1.3
-    to capture a raw rgb image in grayscale, 
-    and convert it to an 84x48 bitmap via binary thresholding,
+    to capture a raw rgb video in grayscale, 
+    convert it to an 84x48 bitmap via binary thresholding,
     and stdout the bitmap buffer (84x48) = 4032 bytes each with a value of 0 or 1
 
-    python3 picamera_capture_to_stdout.py | ./Nokia_5110_bitmap_from_stdin
+    python3 picamera_stream_to_stdout.py | ./Nokia_5110_bitmap_stream_from_stdin
 '''
 THRESHOLD = 122
 

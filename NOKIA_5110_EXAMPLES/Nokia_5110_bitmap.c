@@ -1,4 +1,5 @@
 /**
+ * Second program showing the presenting of a manually allocated bitmap
  * gcc -o Nokia_5110_bitmap Nokia_5110_bitmap.c -lgpiod
  * ./Nokia_5110_bitmap
  */
