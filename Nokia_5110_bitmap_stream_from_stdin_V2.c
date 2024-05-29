@@ -1,8 +1,8 @@
 /**
  * Program that reads from stdin a stream of bitmaps and presents it onto a Nokia 5110 LCD *  
  * 
- * gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_from_stdin_V2.c -lgpiod
- * python3 picamera_stream_to_stdout_V2 | ./Nokia_5110_bitmap_stream_from_stdin_V2
+ * gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
+ * python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
  */
 
 #include <gpiod.h>

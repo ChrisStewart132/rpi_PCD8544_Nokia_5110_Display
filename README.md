@@ -14,7 +14,7 @@ Requires a device (rpi 3b+) with an SPI interface and 2 spare GPIO pins, Nokia 5
 Assuming you have wired your SPI interface to the Nokia 5110 with the 2 GPIO (d/c and rst) pins correctly connected.
 Compile Nokia_5110_bitmap_from_stdin_V2.c with gpiod installed on your linux device: 
 ```
-gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_from_stdin_V2.c -lgpiod
+gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
 ```
 With python 3 installed:
 ```

@@ -2,7 +2,7 @@
  * Fourth prgoram, reads an 84x48 byte buffer stream (i.e. a continuous buffer with 1 or more bitmaps queued)
  *  where each byte is 0/1 from STDIN
  * 
- * gcc -o Nokia_5110_bitmap_stream_from_stdin Nokia_5110_bitmap_from_stdin.c -lgpiod
+ * gcc -o Nokia_5110_bitmap_stream_from_stdin Nokia_5110_bitmap_stream_from_stdin.c -lgpiod
  * python3 picamera_stream_to_stdout | ./Nokia_5110_bitmap_stream_from_stdin
  */
 
