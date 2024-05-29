@@ -4,10 +4,11 @@ Program Using the Linux SPIDEV character driver and the libgpiod GPIO library to
 # DEMO
 https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display/assets/30304173/fb5c2923-b809-49ff-a8f8-25c49b45d450
 
-
-
 # Nokia 5110
 Nokia 5110 is a Nokia GSM mobile phone model. It was released in 1998. At one point, it was said to be the most popular mobile telephone in the world. 
+
+# REQUIREMENTS TO RUN
+Requires a device (rpi 3b+) with an SPI interface and 2 spare GPIO pins, Nokia 5110 LCD, gpiod library, linux os (gpiod, spidev, C programs, gcc compiler), picameraV1 (rpi camera V1.3 hardware).
 
 # Linux/Rpi commands
 ```
