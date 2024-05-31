@@ -30,8 +30,9 @@ with picamera.PiCamera() as camera:     # Set up the camera
     frames_sent = 0
     while True:
         length = rgb_stream.tell()
-        if length % FRAME_SIZE == 0:# skip to the last frame in the stream where possible
-            frames_sent = length // FRAME_SIZE - 1
+        if length % FRAME_SIZE == 0:# skip to the 2nd to last frame in the stream where possible
+            frames_sent = length // FRAME_SIZE - 2
+            frames_sent = max(0, frames_sent)
         rgb_stream.seek(frames_sent*FRAME_SIZE, 0)
         rgb_frame = rgb_stream.read(FRAME_SIZE)
         rgb_stream.seek(0,io.SEEK_END)
