@@ -16,6 +16,10 @@ With a cmd line open in a directory:
 ```
 git clone https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display.git
 ```
+Navigate into the cloned directory:
+```
+cd rpi_PCD8544_Nokia_5110_Display
+```
 Compile Nokia_5110_bitmap_stream_from_stdin_V2.c with gpiod installed on your linux device: 
 ```
 gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
@@ -23,6 +27,10 @@ gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdi
 With python 3 installed:
 ```
 python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
+```
+Or with optional thresholding (0-255) argument
+```
+python3 picamera_stream_to_stdout_V2.py 100 | ./Nokia_5110_bitmap_stream_from_stdin_V2
 ```
 
 
