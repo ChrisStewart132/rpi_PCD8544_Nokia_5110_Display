@@ -2,7 +2,7 @@ import time
 import picamera
 from io import BytesIO
 import io
-from sys import stdout
+from sys import stdout, argv
 '''
     program using the rpi 3b+ and picamera v1.3
     to capture a raw rgb video in grayscale, 
@@ -10,13 +10,17 @@ from sys import stdout
     and stdout the bitmap buffer (84x48) = 4032 bytes each with a value of 0 or 1
 
     python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
+    
+    or call with a threshold arg (0-255)
+    python3 picamera_stream_to_stdout_V2.py 100| ./Nokia_5110_bitmap_stream_from_stdin_V2
 '''
-THRESHOLD = 122
+
+THRESHOLD = min(255,max(0,int(argv[1]))) if len(argv) == 2 else 122
 
 with picamera.PiCamera() as camera:     # Set up the camera
     camera.resolution = (96, 48)        # Set to minimum resolution 96,48
     FRAME_SIZE = camera.resolution[0]* camera.resolution[1] * 3
-    camera.framerate = 16
+    camera.framerate = 24
     camera.rotation = 180               # flip camera view
     camera.color_effects = (128,128)    # grayscale
     time.sleep(2)                       # Allow the camera to warm up
@@ -46,7 +50,8 @@ with picamera.PiCamera() as camera:     # Set up the camera
                 bitmap_bytes.append(alpha > THRESHOLD)
             x += 1
             j += 3
-        stdout.write(bitmap_bytes.decode())
+        #stdout.write(bitmap_bytes.decode())
+        stdout.buffer.write(bitmap_bytes)
         frames_sent += 1
     
     camera.stop_preview()
