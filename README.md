@@ -20,6 +20,10 @@ Navigate into the cloned directory:
 ```
 cd rpi_PCD8544_Nokia_5110_Display
 ```
+install libgpiod
+```
+sudo apt install libgpiod-dev
+```
 Compile Nokia_5110_bitmap_stream_from_stdin_V2.c with gpiod installed on your linux device: 
 ```
 gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
