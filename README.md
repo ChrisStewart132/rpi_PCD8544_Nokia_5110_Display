@@ -8,7 +8,7 @@ https://github.com/ChrisStewart132/rpi_PCD8544_Nokia_5110_Display/assets/3030417
 Nokia 5110 is a Nokia GSM mobile phone model. It was released in 1998. At one point, it was said to be the most popular mobile telephone in the world. 
 
 # REQUIREMENTS TO RUN
-Requires a device (rpi 3b+) with an SPI interface and 2 spare GPIO pins, Nokia 5110 LCD, gpiod library, linux os (gpiod, spidev, C programs, gcc compiler), picameraV1 (rpi camera V1.3 hardware).
+Requires a raspberry pi computer running bullseye or bookworm os, Nokia 5110 LCD, gpiod library, and a rpi camera.
 
 # HOW TO RUN
 Assuming you have wired your SPI interface to the Nokia 5110 with the 2 GPIO (d/c and rst) pins correctly connected.
@@ -24,27 +24,12 @@ install libgpiod
 ```
 sudo apt install libgpiod-dev
 ```
-Compile Nokia_5110_bitmap_stream_from_stdin_V2.c with gpiod installed on your linux device: 
+Compile: 
 ```
+gcc -o YUV420_to_binary_threshold YUV420_to_binary_threshold.c
 gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
 ```
-With python 3 installed:
+Run
 ```
-python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
-```
-Or with optional thresholding (0-255) argument
-```
-python3 picamera_stream_to_stdout_V2.py 100 | ./Nokia_5110_bitmap_stream_from_stdin_V2
-```
-
-
-# Linux/Rpi commands
-```
-ssh pi@192.168.1.65
-
-// copy from remote -> local
-scp username@from_host:file.txt /local/directory/
-
-// copy from local -> remote
-scp file.txt username@to_host:/remote/directory/
+rpicam-vid -n -t 0 --framerate 30 --width 128 --height 160 --codec yuv420 -o - | ./YUV420_to_binary_threshold | ./Nokia_5110_bitmap_stream_from_stdin_V2
 ```
