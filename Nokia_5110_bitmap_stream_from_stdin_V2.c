@@ -1,8 +1,19 @@
 /**
- * Program that reads from stdin a stream of (48h x 84w) bitmaps and presents it onto a Nokia 5110 LCD  
+ * Program that reads from stdin a stream of 128x160 bitmaps and presents it onto a Nokia 5110 LCD  
  * 
  * gcc -o Nokia_5110_bitmap_stream_from_stdin_V2 Nokia_5110_bitmap_stream_from_stdin_V2.c -lgpiod
- * python3 picamera_stream_to_stdout_V2.py | ./Nokia_5110_bitmap_stream_from_stdin_V2
+ * 
+ * display 84x48 bitmap from a binary file
+ * cat bitmap.bin | ./Nokia_5110_bitmap_stream_from_stdin_V2
+ * 
+ * display 84x48 bitmap from 128x160 yuv420 file
+ * cat bitmap.yuv420 | ./YUV420_to_binary_threshold | ./Nokia_5110_bitmap_stream_from_stdin_V2
+ * 
+ * display a 128x160 stream from camera
+ * rpicam-vid -n -t 0 --framerate 30 --width 128 --height 160 --codec yuv420 -o - | ./YUV420_to_binary_threshold | ./Nokia_5110_bitmap_stream_from_stdin_V2
+ * 
+ * testing yuv420 file format
+ * rpicam-vid -t 1000 --framerate 30 --width 84 --height 64 --codec yuv420 --output test%04d.yuv420 --segment 1
  */
 
 #include <gpiod.h>
@@ -16,10 +27,10 @@
 #include <linux/spi/spidev.h>
 
 #define GPIO_CHIP_NAME "gpiochip0"
-#define GPIO_OFFSET_DC 17 	// DATA(high)/COMMAND(low)
-#define GPIO_OFFSET_RST 27 	// RESET active low
+#define GPIO_OFFSET_DC 26 	// DATA(high)/COMMAND(low)
+#define GPIO_OFFSET_RST 16 	// RESET active low
 
-#define SPI_DEVICE "/dev/spidev0.0"
+#define SPI_DEVICE "/dev/spidev1.0"
 #define SPI_HZ 4000000
 /**
  * SCE
@@ -139,7 +150,7 @@ void reset_cursor(int fd, struct gpiod_line** dc){
 
 void display_buffer(int fd, struct gpiod_line** dc, char bitmap[48][84]){
 	// Buffer to hold the entire command set to be transferred
-    uint8_t transfer_buffer[504]; // 84 columns * 6 rows = 504 bytes
+    uint8_t transfer_buffer[504]; // 84 rows * 6 columns = 504 bytes
     int buffer_index = 0;
 
 	_gpio_high(dc);// data mode
@@ -173,11 +184,7 @@ void display_clear(int fd, struct gpiod_line** dc){
 
 void load_buffer_from_stream_stdin(char bitmap[48][84]){
 	for(int i = 0; i < 48; i++){
-		/*
-		for(int j = 0; j < 84; j++){
-			read(0, &(bitmap[i][j]), 1);
-		}*/
-		read(0, &(bitmap[i][0]), 84);//
+		read(0, &(bitmap[i][0]), 84);
 	}
 }
 
